@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+import roslib 
+from sensor_msgs.msg import CameraInfo
+from std_msgs.msg import Int8
+import std_msgs.msg
+import rospy
+import math
+
+topic = 'rgb/camera_info'
+publisher = rospy.Publisher(topic, CameraInfo,queue_size=10)
+
+rospy.init_node('fake_info')
+
+count = 0
+MARKERS_MAX = 100
+
+Info= CameraInfo()
+while not rospy.is_shutdown():
+# while True:
+   # print("hello:")
+
+   # Info= CameraInfo()
+   Info.header.frame_id="odom"
+   # Info.header.stamp = rospy.Time.now()
+   Info.height=720
+   Info.width=1280
+   Info.distortion_model= "plumb_bob"
+   Info.D=[0.0, 0.0, 0.0, 0.0, 0.0]
+   Info.K=[925.13330078125, 0.0,634.3031616210938,  0.0, 925.2440185546875, 366.37713623046875,  0.0, 0.0, 1.0]
+   Info.R=[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0,1.0 ]
+   Info.P=[925.13330078125, 0.0,634.3031616210938,  0.0, 0.0, 925.2440185546875, 366.37713623046875,  0.0, 0.0, 0.0, 1.0, 0.0]
+   Info.binning_x=0
+   Info.binning_y=0
+   # Info.do_rectify= False
+   
+   print("here")
+   publisher.publish(Info)
+   print("here2")
+
+
+   rospy.sleep(0.1)
