@@ -228,6 +228,7 @@ image_cb (const sensor_msgs::ImageConstPtr& rgb_msg, const sensor_msgs::ImageCon
 // Allocate new point cloud message
   sensor_msgs::PointCloud2::Ptr cloud_msg (new sensor_msgs::PointCloud2);
   cloud_msg->header = depth_msg->header; // Use depth image time stamp
+  cloud_msg->header.frame_id="odom";
   cloud_msg->height = depth_msg->height;
   cloud_msg->width  = depth_msg->width;
   cloud_msg->is_dense = false;
@@ -278,8 +279,8 @@ int main (int argc, char** argv)
   get_CameraInfo(Info);
 
   // Initialize subscribers to darknet detection and pointcloud
-  message_filters::Subscriber<sensor_msgs::Image> sub_rgb(nh, "rgb/image_rect_color", 1);
-  message_filters::Subscriber<sensor_msgs::Image> sub_depth(nh, "depth_registered/image_rect", 1);
+  message_filters::Subscriber<sensor_msgs::Image> sub_rgb(nh, "rgb/image", 1);
+  message_filters::Subscriber<sensor_msgs::Image> sub_depth(nh, "depth/image", 1);
   //message_filters::Subscribe<sensor_msgs::Cameramage> sub_depth(nh, "depth_registered/image_rect", 1);
 
   // Initialize transform listener
